@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>react-simple</title>
+</head>
+<body>
+	<div id="root"></div>
+	<script src="https://unpkg.com/react@latest/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+	<script type="text/">
+		/**
+		 * set type="text/babel"
+		 * babel can presets es2015 and react jsx
+		 */
+
+	  ReactDOM.render(
+	    <h1 className="greeting">Hello, world!</h1>,
+	    document.getElementById('root')
+	  );	  
+	</script>
+
+	<script type="text/">
+		/**
+		 * set type="text/javascript"
+		 * that why react is virtual dom
+		 */
+	  ReactDOM.render(
+			React.createElement('h1', {className: 'greeting'}, 'Hello world!'),
+			document.getElementById('root')
+	  )
+	</script>
+
+	<script type="text/javascript">
+		/**
+		 * set type="text/javascript"
+		 * create element by raw javascript
+		 */
+		var h1 = document.createElement('h1');
+		var text = document.createTextNode('Hello, world!');
+		h1.appendChild(text);
+		h1.setAttribute('class', 'gretting');
+
+		document.getElementById('root').appendChild(h1)
+	</script>
+</body>
+</html>
