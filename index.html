@@ -2,93 +2,99 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>component stateless</title>
+	<title>component stateful</title>
 </head>
 <body>
 	<div id="root"></div>
 	<script src="https://unpkg.com/react@latest/dist/react.js"></script>
   <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
   <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-	<script type="text/">
+	<script type="text/babel">
 		/**
 		 * set type="text/babel"
 		 * babel can presets es2015 and react jsx
 		 */
 
 		/**
-		 * 无状态组件
-		 * ReactDOM.render() => Func()
+		 * 通过状态组件维护UI的变化，而不是每次都要调用ReactDOM.render()
+		 * 当组件state变化时，当前组件树就会重新render
 		 */
-	  function Welcome(props) {
-	  	return <h1>Hello, {props.name}</h1>;
-	  }
+		class Clock extends React.Component {
+			constructor(props) {
+		    super(props);
 
-	  function App() {
-	  	return (
-				<div>
-					<p>函数表示法</p>
-					<Welcome name="Lucy" />
-					<Welcome name="Sara" />
-				</div>
-	  	)
-	  }
+		    // state 初始化
+		    this.state = {date: new Date()};
+		  }
 
-	  ReactDOM.render(
-			<App />,
-			document.getElementById('root')
-	  )
-	</script>	
+			/**
+			 * 组件挂载
+			 */
+		  componentWillMount() {
+		  	console.log('componentWillMount')
+		  }
 
-	<script type="text/">
-	  /**
-	   * 箭头函数表示法
-	   */
-	  const Welcome = ({
-	  	name
-	  }) => (
-			<h1>Hello, {name}</h1>
-	  )
+		  componentDidMount() {
+		  	console.log('componentDidMount')
+		  	console.log(this.state.date.toLocaleTimeString())
+		  	this.timerID = setTimeout(() => this.tick(), 1000)
+		  }
 
-	  const App = () => (
-			<div>
-				<p>箭头函数表示法</p>
-				<Welcome name="Lucy" />
-				<Welcome name="Sara" />
-			</div>
-	  )
+			/**
+			 * 组件更新
+			 */
+		  componentWillReceiveProps(nextProps) {
+		  	// 作为子组件被嵌套时，可能会触发此状态
+		  	console.log('componentWillReceiveProps')
+		  }
 
-    ReactDOM.render(
-  		<App />,
-  		document.getElementById('root')
-    )
-	</script>
+		  shouldComponentUpdate(nextProps, nextState) {
+		  	// 组件需要更新吗？默认需要更新
+		  	// PureComponent会进行一次浅比较，可结合immutable.js
+		  	// 一般有针对性的深比较一次即可，比如只比较id
+		  	console.log('shouldComponentUpdate')
+		  	return true;
+		  }
 
-	<script type="text/babel">
-		/** 
-		 * 标准组件一定要用render方法导出，
-		 * 如此，根方法ReactDOM.render才能使其生成react elements
-		 * ReactDOM.render() => Component.render()
-		 */
-		class Welcome extends React.Component {
-			render() {
-				return <h1>Hello, {this.props.name}</h1>;
-			}
-		}
+		  componentWillUpdate() {
+		  	console.log('componentWillUpdate')
+		  }
 
-		class App extends React.Component {
+		  componentDidUpdate() {
+		  	console.log('componentDidUpdate')
+		  }
+
+			/** 
+			 * 组件卸载
+			 */
+		  componentWillUnmout() {
+		  	clearTimeout(this.timerID)
+		  }
+
+		  tick() {
+		  	// 更改state
+		  	// this.setState({
+		  	//		date: new Date()
+		  	// })
+
+				// 更加安全的方式
+		  	this.setState((prevState, props) => ({
+		  		date: new Date()
+		  	}))
+		  }
+
 			render() {
 				return (
-					<div>
-						<p>标准组件</p>
-						<Welcome name="Lucy" />
-						<Welcome name="Sara" />
-					</div>
-				)
+		      <div>
+		        <h1>Hello, world!</h1>
+		        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+		      </div>
+		    );
 			}
 		}
 
 	  ReactDOM.render(
-			<App />,
+			<Clock />,
 			document.getElementById('root')
 	  )
 	</script>

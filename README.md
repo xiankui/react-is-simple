@@ -9,7 +9,8 @@
   * Learn Once, Write Anywhere 服务端渲染、RN客户端开发
 
 ## Important Features Of Reactjs
-  * virtual dom
+  * 虚拟DOM（React-DOM ====(dom-diff)====> Browser-DOM）
+  * 数据（via props）单向流动
 
 
 ## Rendering Elements (渲染UI并让UI动起来)
@@ -33,3 +34,19 @@
 
 ## Components Stateless 无状态组件
   * 无状态组件可用函数进行表达
+  * 通过属性（props）传递数据
+
+## Components Stateful 状态组件
+  * 通过state的改变来触发组件的re-render
+  * 通过setState来更新state，setState是异步方法
+  * re-render触发了当前组件树的数据单向流动
+  * stateful components lifecycle
+    - componentWillMount
+    - componentDidMount
+    
+    - componentWillReceiveProps
+    - shouldComponentUpdate
+    - componentWillUpdate
+    - componentDidUpdate
+
+    - componentWillUnmount
