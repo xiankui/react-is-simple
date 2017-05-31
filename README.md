@@ -11,6 +11,7 @@
 ## Important Features Of Reactjs
   * virtual dom
 
+
 ## Rendering Elements (渲染UI并让UI动起来)
   * Unlike browser DOM elements, React elements are plain objects, and are cheap to create. 
   * ReactDOM.render() method will generate react elements to real DOM elements.
@@ -21,3 +22,14 @@
     - 按照目前的了解为止，我们如果想更新UI，就只能重新调用ReactDOM.render()
     - 不过不用担心，React只更新必要的部分；它会拿当前帧（React Elements DOM）和之前的进行比较，只把变化的部分真正更新到浏览器DOM (react-dom-diff)
     - 由此可见，React性能是良好的
+
+## Components 组件
+  * 组件是元素的封装
+  * 组件是UI的体现
+  * 组件就像纯函数一样，对它的props属性（Read-Only）总是做出相同的回应
+  * 组件总是采用大驼峰写法，并且只能由一个根元素包裹
+  * 组件最好以UI为依据进行拆分，以方便重用
+  * 它总是接受属性（props），导出JSX (react elements)
+
+## Components Stateless 无状态组件
+  * 无状态组件可用函数进行表达

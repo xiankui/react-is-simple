@@ -2,34 +2,95 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>how react render elements</title>
+	<title>component stateless</title>
 </head>
 <body>
 	<div id="root"></div>
 	<script src="https://unpkg.com/react@latest/dist/react.js"></script>
   <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
   <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-	<script type="text/babel">
+	<script type="text/">
 		/**
 		 * set type="text/babel"
 		 * babel can presets es2015 and react jsx
 		 */
 
-		// React render elements by ReactDOM.render()
-	  function tick() {
-	    const element = (
-	      <div>
-	        <h1>Hello, world!</h1>
-	        <h2>It is {new Date().toLocaleTimeString()}.</h2>
-	      </div>
-	    );
-	    ReactDOM.render(
-	      element,
-	      document.getElementById('root')
-	    );
+		/**
+		 * 无状态组件
+		 * ReactDOM.render() => Func()
+		 */
+	  function Welcome(props) {
+	  	return <h1>Hello, {props.name}</h1>;
 	  }
 
-	  setInterval(tick, 1000);  
+	  function App() {
+	  	return (
+				<div>
+					<p>函数表示法</p>
+					<Welcome name="Lucy" />
+					<Welcome name="Sara" />
+				</div>
+	  	)
+	  }
+
+	  ReactDOM.render(
+			<App />,
+			document.getElementById('root')
+	  )
 	</script>	
+
+	<script type="text/">
+	  /**
+	   * 箭头函数表示法
+	   */
+	  const Welcome = ({
+	  	name
+	  }) => (
+			<h1>Hello, {name}</h1>
+	  )
+
+	  const App = () => (
+			<div>
+				<p>箭头函数表示法</p>
+				<Welcome name="Lucy" />
+				<Welcome name="Sara" />
+			</div>
+	  )
+
+    ReactDOM.render(
+  		<App />,
+  		document.getElementById('root')
+    )
+	</script>
+
+	<script type="text/babel">
+		/** 
+		 * 标准组件一定要用render方法导出，
+		 * 如此，根方法ReactDOM.render才能使其生成react elements
+		 * ReactDOM.render() => Component.render()
+		 */
+		class Welcome extends React.Component {
+			render() {
+				return <h1>Hello, {this.props.name}</h1>;
+			}
+		}
+
+		class App extends React.Component {
+			render() {
+				return (
+					<div>
+						<p>标准组件</p>
+						<Welcome name="Lucy" />
+						<Welcome name="Sara" />
+					</div>
+				)
+			}
+		}
+
+	  ReactDOM.render(
+			<App />,
+			document.getElementById('root')
+	  )
+	</script>
 </body>
 </html>
