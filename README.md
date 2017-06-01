@@ -1,4 +1,4 @@
-# react-simple
+# react-is-simple
 
 ## what's mean react ? [translate](https://translate.google.cn/#en/zh-CN/react)
   * respond or behave in a particular way in response to something
