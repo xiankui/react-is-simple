@@ -4,48 +4,60 @@
  */
 
 /**
- * react handling events
+ * conditional-rendering
  */
-class Toggle extends React.Component {
+function WarningBanner(props) {
+  // o!!
+  if (!props.warn) {
+    return null;  // or return false; props.warn && <div />
+  }
+
+  return (
+    <div style={{color: 'red',padding: '20px 0'}} className="warning">
+      Warning!
+    </div>
+  );
+}
+
+
+function WarningButton(props) {
+  return (
+    <button style={{padding: '5px 20px'}} onClick={props.handleToggleClick}>
+      {props.warn ? 'Hide' : 'Show'}
+    </button>
+  )
+}
+
+class Page extends React.Component {
   constructor(props) {
     super(props);
   
-    this.state = {isToggleOn: false};
+    this.state = {showWarning: true};
 
-    // This binding is necessary to make `this` work in the callback; otherwise, you can use arrow function
-    this.handleClick = this.handleClick.bind(this);
+    //
+    this.handleButtonClick = this.handleButtonClick.bind(this)
   }
 
-  // when componentDidMount, mock handleClick
-  componentDidMount() {
-    // but, no 'e' target
-    this.handleClick()
-  }
-
-  handleClick(e) {
-    console.log(e)
-
-    // 阻止默认行为；比如a链接跳转
-    e && e.preventDefault();
-
-    // when bind to component-self, this is component-self; otherwise, this is null
-    console.log('this', this)
+  handleButtonClick(e) {
+    e.preventDefault();
 
     this.setState(prevState => ({
-      isToggleOn: !prevState.isToggleOn
+      showWarning: !prevState.showWarning
     }))
   }
 
   render() {
     return (
-      <button style={{padding: '5px 20px'}} onClick={this.handleClick}>
-        {this.state.isToggleOn ? 'ON' : 'OFF'}
-      </button>
+      <div>
+        <WarningBanner warn={this.state.showWarning} />
+        <WarningButton warn={this.state.showWarning} handleToggleClick={this.handleButtonClick} />
+      </div>
     )
   }
 }
 
+
 ReactDOM.render(
-	<Toggle />,
+	<Page />,
 	document.getElementById('root')
 )

@@ -56,3 +56,10 @@
   * translate lowercase to camelCase
   * translate func-string() to func-define
   * this 行为也与 javascript 保持一致，如必要需手动绑定；也可使用箭头函数
+
+## 条件渲染
+  * true && <C />   ==> <C />
+  * false && <C />  ==> null
+  * condition ? <C1 /> : <C2 />
+
+
