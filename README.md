@@ -1,4 +1,4 @@
-# react-simple
+# react-is-simple
 
 ## what's mean react ? [translate](https://translate.google.cn/#en/zh-CN/react)
   * respond or behave in a particular way in response to something
@@ -9,7 +9,7 @@
   * Learn Once, Write Anywhere 服务端渲染、RN客户端开发
 
 ## Important Features Of Reactjs
-  * virtual dom
+  * Virtual DOM
 
 ## Rendering Elements (渲染UI并让UI动起来)
   * Unlike browser DOM elements, React elements are plain objects, and are cheap to create. 
