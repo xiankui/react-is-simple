@@ -62,4 +62,9 @@
   * false && <C />  ==> null
   * condition ? <C1 /> : <C2 />
 
+## 列表渲染
+  * [<Component />, <Component />, ...]
+  * 每一项添加一个当前列表中唯一的字符串类型的属性key
+
+
 

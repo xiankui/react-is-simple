@@ -4,60 +4,19 @@
  */
 
 /**
- * conditional-rendering
+ * Lists and Keys
  */
-function WarningBanner(props) {
-  // o!!
-  if (!props.warn) {
-    return null;  // or return false; props.warn && <div />
-  }
+const NumberList = ({
+  numbers
+}) => {
+  let listItems = numbers.map((number, index) => <li key={`${index}-${number}`}>{number}</li>)
 
-  return (
-    <div style={{color: 'red',padding: '20px 0'}} className="warning">
-      Warning!
-    </div>
-  );
+  return <ul>{listItems}</ul>
 }
 
-
-function WarningButton(props) {
-  return (
-    <button style={{padding: '5px 20px'}} onClick={props.handleToggleClick}>
-      {props.warn ? 'Hide' : 'Show'}
-    </button>
-  )
-}
-
-class Page extends React.Component {
-  constructor(props) {
-    super(props);
-  
-    this.state = {showWarning: true};
-
-    //
-    this.handleButtonClick = this.handleButtonClick.bind(this)
-  }
-
-  handleButtonClick(e) {
-    e.preventDefault();
-
-    this.setState(prevState => ({
-      showWarning: !prevState.showWarning
-    }))
-  }
-
-  render() {
-    return (
-      <div>
-        <WarningBanner warn={this.state.showWarning} />
-        <WarningButton warn={this.state.showWarning} handleToggleClick={this.handleButtonClick} />
-      </div>
-    )
-  }
-}
-
+const numbers = [1, 2, 3, 3, 4, 5];
 
 ReactDOM.render(
-	<Page />,
+	<NumberList numbers={numbers} />,
 	document.getElementById('root')
 )
