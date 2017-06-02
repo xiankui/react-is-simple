@@ -82,7 +82,12 @@
   * 组件可以通过props传递值、对象、函数、另外一个组件等任意门
   * 那么继承呢？哈哈，Facebook说从来没遇到过必须用继承的情况
 
-
+## 用React的方式去思考
+  * Step 1: Break The UI Into A Component Hierarchy
+  * Step 2: Build A Static Version in React
+  * Step 3: Identify The Minimal (but complete) Representation Of UI State
+  * Step 4: Identify Where Your State Should Live
+  * Step 5: Add Inverse Data Flow
 
 
 
