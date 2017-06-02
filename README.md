@@ -66,5 +66,8 @@
   * [<Component />, <Component />, ...]
   * 每一项添加一个当前列表中唯一的字符串类型的属性key
 
-
+## 受控组件(Controlled Components)
+  * html的form表单具有默认的状态行为
+  * React内的form表单当然也默认具有这种行为
+  * 但是，当设置了value属性时，这种默认行为被打断，必须通过react的状态管理方式--setState来维护值的变化
 
