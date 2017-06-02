@@ -4,120 +4,59 @@
  */
 
 /**
- * lifting state up
- * 摄氏和华氏温度的转换需要提升到他们共同的父组件来控制
+ * composition-vs-inheritance
  */
 
+// composition is enough!!!
+const FancyBorder = (props) => (
+  <div className={'FancyBorder FancyBorder-' + props.color}>
+    {props.children}
+  </div>
+)
 
-/**
- * methods
- */
-function toCelsius(fahrenheit) {
-  return (fahrenheit - 32) * 5 / 9;
-}
+const Dialog = (props) => (
+  <FancyBorder color="blue">
+    <h1 className="Dialog-title">
+      {props.title}
+    </h1>
+    <p className="Dialog-message">
+      {props.message}
+    </p>
+    {props.children}
+  </FancyBorder>
+)
 
-function toFahrenheit(celsius) {
-  return (celsius * 9 / 5) + 32;
-}
-
-function tryConvert(temperature, convert) {
-  const input = parseFloat(temperature);
-  if (Number.isNaN(input)) {
-    return '';
-  }
-  const output = convert(input);
-  const rounded = Math.round(output * 1000) / 1000;
-  return rounded.toString();
-}
-
-const scaleNames = {
-  c: 'Celsius',
-  f: 'Fahrenheit'
-};
-
-
-function BoilingVerdict(props) {
-  if (props.celsius >= 100) {
-    return <p>The water would boil.</p>;
-  }
-  return <p>The water would not boil.</p>;
-}
-
-class TemperatureInput extends React.Component {
+class SignUpDialog extends React.Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.state = {login: ''};
+  }
 
-    this.handleChange = this.handleChange.bind(this)
+  render() {
+    return (
+      <Dialog title="Mars Exploration Program"
+              message="How should we refer to you?">
+        <input value={this.state.login}
+               onChange={this.handleChange} />
+        <button onClick={this.handleSignUp}>
+          Sign Me Up!
+        </button>
+      </Dialog>
+    );
   }
 
   handleChange(e) {
-    let {scale, onTemperatureChange } = this.props;
-    let temperature = e.target.value;
-    onTemperatureChange(scale, temperature)
+    this.setState({login: e.target.value});
   }
 
-  render() {
-    let {
-      scale,
-      temperature,
-    } = this.props;
-
-    return (
-      <fieldset>
-        <legend>Enter temperature in {scaleNames[scale]}:</legend>
-        <input value={temperature}
-               onChange={this.handleChange} />
-      </fieldset>
-    );
-  }
-} 
-
-class Calculator extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // 只记录一种温度；另外一种通过计算得出
-    this.state = {
-      scale: 'c',
-      temperature: '',
-    }
-
-    this.handleTemperatureChange = this.handleTemperatureChange.bind(this)
-  }
-
-  handleTemperatureChange(scale, temperature) {
-    this.setState({
-      scale,
-      temperature
-    })
-  }
-
-  render() {
-    // 计算的速度总是很快的
-    let scale = this.state.scale,
-        temperature = this.state.temperature,
-        celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature,
-        fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
-
-    return (
-      <div>
-        <TemperatureInput 
-          scale="c" 
-          temperature={celsius}
-          onTemperatureChange={this.handleTemperatureChange}  />
-        <TemperatureInput 
-          scale="f"
-          temperature={fahrenheit}
-          onTemperatureChange={this.handleTemperatureChange} />
-
-      <BoilingVerdict
-        celsius={parseFloat(celsius)} />
-      </div>
-    )
+  handleSignUp() {
+    alert(`Welcome aboard, ${this.state.login}!`);
   }
 }
 
 ReactDOM.render(
-	<Calculator />,
+	<SignUpDialog />,
 	document.getElementById('root')
 )
