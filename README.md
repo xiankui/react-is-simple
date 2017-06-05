@@ -10,4 +10,16 @@
 
 ## Important Feature Of Reactjs
   * Virtual DOM
+  * one-way (up-to-down) data flow
 
+## git branch flow
+  * rendering-elements
+  * components-and-props
+  * state-and-lifecycle
+  * handling-events
+  * conditional-rendering
+  * lists-and-keys
+  * forms
+  * lifting-state-up
+  * composition-vs-inheritance
+  * thinking-in-react
