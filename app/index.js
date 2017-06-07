@@ -1,122 +1,67 @@
 /**
- * Higher-Order Components 高阶组件
+ * integrating-with-other-libraries 和其他组件库融合
  */
 
-// 0. const EnhancedComponent = higherOrderComponent(WrappedComponent);
-// 1. a higher-order component is a function that takes a component and returns a new component. likes to curry function.
-// 2. Don't Mutate the Original Component. Use Composition.
-// 3. Pass Unrelated Props Through to the Wrapped Component
-// 4. Static Methods Must Be Copied Over
-// 5. Refs Aren't Passed Through
-
-/**
- * react-redux connect is a higher-order function energy by compose
- */
-// connect is a function that returns another function
-// const enhance = connect(commentListSelector, commentListActions);
-// The returned function is an HOC, which returns a component that is connected
-// to the Redux store
-// const ConnectedComment = enhance(CommentList);
-
-
+// Although React is commonly used at startup to load a single root React component into the DOM, 
+// ReactDOM.render() can also be called multiple times for independent parts of the UI which can be as small as a button, 
+// or as large as an app. In fact, this is exactly how React is used at Facebook. 
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-const CommentListData = [{
-	id: 0,
-	comment: 'tmall is so good'
-}, {
-	id: 1,
-	comment: 'taobao is good enough'
-}]
+// a sample intergrating with jQuery. just for demonstration!!
+class Chosen extends React.Component {
+  componentDidMount() {
+  	// this.$el is jQuery element
+    this.$el = $(this.el);
+    // this.$el.chosen();
 
-class CommentList extends Component {
-	constructor(props) {
-	  super(props);
-	}
+    this.handleChange = this.handleChange.bind(this);
+    this.$el.on('change', this.handleChange);
+  }
 
-	componentDidMount() {
-		console.log('CommentList did mount first --- ', this.props)
-	}
+  componentDidUpdate(prevProps) {
+    if (prevProps.children !== this.props.children) {
+      this.$el.trigger("chosen:updated");
+    }
+  }
 
-	render() {
-		let { lists, onClick } = this.props;
-		return (
-			<div>
-				CommentList:
-				<ul>
-					{
-						!!lists && lists.length > 0 && lists.map(list => <li key={list.id} onClick={onClick}>{list.comment}</li>)
-					}
-				</ul>
-			</div>
-		)
-	}
+  componentWillUnmount() {
+    this.$el.off('change', this.handleChange);
+    // this.$el.chosen('destroy');
+  }
+
+  handleChange(e) {
+    this.props.onChange(e.target.value);
+  }
+
+  render() {
+    return (
+      <div>
+        <select className="Chosen-select" ref={el => this.el = el}>
+          {this.props.children}
+        </select>
+      </div>
+    );
+  }
 }
 
-// enhance is higher-order component
-const enhance = connect(commentListSelector, commentListActions);
+const MyChosen = () => (
+	<Chosen onChange={value => console.log(value)}>
+    <option>vanilla</option>
+    <option>chocolate</option>
+    <option>strawberry</option>
+  </Chosen>
+)
 
-const ConnectedComment = enhance(CommentList);
-
-/**
- * higher-order function
- * fake react-redux connect
- * selector reflex mapStateToProps
- * actions reflex mapDispatchToProps
- * selector() and actions() passed as props into WrappedComponent
- */
-function connect(selector, actions) {
-	// getState dispatch from redux.store
-	let propsState = selector();
-	let propsDispatch = actions();
-
-	// higher-order component 
-	return function(WrappedComponent) {
-
-		// the new component returned base on WrappedComponent
-		return class extends Component {
-			constructor(props) {
-			  super(props);
-			
-			  this.state = {};
-			}
-
-			componentDidMount() {
-				console.log('ConnectedComment did mount then --- ', this.props)
-			}
-
-			componentWillReceiveProps(nextProps) {
-				console.log('ConnectedComment will receive props --- ', nextProps)
-			}
-
-			render() {
-				return (
-					<WrappedComponent {...this.props} {...propsState} {...propsDispatch} />
-				)
-			}
-		}
-	}
-}
-
-// redux.store.getState
-function commentListSelector(state) {
-	return {
-		lists: CommentListData
-	}
-}
-
-// redux.store.dispatch
-function commentListActions(dispatch) {
-	return {
-		onClick: function(e) {
-			alert(e.target.innerHTML)
-		}
-	}
-}
 
 ReactDOM.render(
-	<ConnectedComment name="fake.react-redux" lists={[]} />,
+	<h1>Intergrating with jQuery Library</h1>,
 	document.getElementById('root')
+)
+
+ReactDOM.render(
+	<MyChosen />,
+	document.getElementById('withInJquery')
 )
