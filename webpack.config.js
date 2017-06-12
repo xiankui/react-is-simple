@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 
 const config = {
@@ -11,10 +13,35 @@ const config = {
 			test: /\.jsx?$/, 
 			loaders: 'babel-loader',
 			query: {
-				presets: ['es2016', 'react']
+				presets: ['es2015', 'react']
 			}
 		}]
-	}
+	},
+
+	plugins: [
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
+    new UglifyJsPlugin({
+      beautify: false,
+      // mangle: {
+      //   screw_ie8: true,
+      //   keep_fnames: true
+      // },
+      // compress: {
+      //   screw_ie8: true
+      // },
+      comments: false
+    }),
+
+    // for use react-devtools in chrome
+    new webpack.DefinePlugin({
+      "process.env": { 
+         NODE_ENV: JSON.stringify("production") 
+       }
+    })
+  ]
 }
 
 module.exports = config;
