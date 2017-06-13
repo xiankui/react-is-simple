@@ -84,3 +84,7 @@
   * forceUpdate(callback)
   * CustomComponent.defaultProps = {}
   * CustomComponent.propTypes = {}
+
+## 参考推荐
+  * [React 官网Docs 中文翻译](https://jobbym.gitbooks.io/react-docs-zh-cn/content/)
+  * [Virtual DOM](https://github.com/livoras/simple-virtual-dom)
