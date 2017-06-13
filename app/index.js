@@ -1,16 +1,16 @@
 /**
- * implementation-notes 节点的实现方式
- * Platform-specific components: ReactDOMComponent ReactNativeBaseComponent
- * User-defined components: CompositeComponent 
+ * design-principles
+ * https://github.com/JobbyM/React-Docs-zh-CN/blob/master/design-principles.md
  */
+
+// Composition: react的主要特征是组件的组合
+// Scheduling: 团队内部有一个玩笑，React 应该被称为“调度（schedule）”因为React 不想完全成为“响应（reactive）”。
+// Beyond the DOM: JavaScript Documnet Object Model
+// Implementation: 我们喜欢枯燥的代码而不是聪明的代码。代码是一次性的并且经常改变。因此，更重要的是，他不会引入新的内部抽象，除非绝对必要。
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-/**
- * 以浏览器平台为描述依据
- * DOMComponent vs CompositeComponent
- */
 class App extends Component {
 	constructor(props) {
 	  super(props);
@@ -21,34 +21,23 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<h1>App Component</h1>
-				<Greeting />
+				<h1>Design Principles</h1>
+				<h2>UI = f(state)</h2>
+				<h3>Virtual DOM (JavaScript Document Object Model) == ReactDOM.render ==> DOM (Document Object Model)</h3>
+				<Principles />
 			</div>
 		)
 	}
 }
 
-function Greeting(props) {
-	return (
-		<p>hello world</p>
-	)
-}
-
-/**
- * 组件层层嵌套，维护着渲染和更新算法，最终渲染出的平台元素形成UI
- */
-var _ = {
-	// Object => class CompositeComponent
-	App: <App />.type.prototype.isReactComponent,
-
-	// undefined => function CompositeComponent
-	Greeting: <Greeting />.type.prototype.isReactComponent,
-
-	// String 'div' => DOMComponent
-	div: <div />.type
-}
-
-console.log(_)
+const Principles = () => (
+	<ul>
+		<li key="composition">Composition: react的主要特征是组件的组合</li>
+		<li key="scheduling">Scheduling: 团队内部有一个玩笑，React 应该被称为“调度（schedule）”因为React 不想完全成为“响应（reactive）”。</li>
+		<li key="beyond-the-dom">Virtual DOM: JavaScript Document Object Model</li>
+		<li key="implementation">Implementation: 我们喜欢枯燥的代码而不是聪明的代码。代码是一次性的并且经常改变。因此，更重要的是，他不会引入新的内部抽象，除非绝对必要。</li>
+	</ul>
+)
 
 ReactDOM.render(
 	<App />,
