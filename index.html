@@ -21,18 +21,23 @@
 	  );	  
 	</script>
 
-	<script type="text/">
+	<script type="text/javascript">
 		/**
 		 * set type="text/javascript"
 		 * that why react is virtual dom
+		 * react elements is pure javascript object
 		 */
+		var virtualDOM = React.createElement('h1', {className: 'greeting'}, 'Hello world!');
+
+		console.log('plain javascript object virtualDOM', virtualDOM)
+
 	  ReactDOM.render(
-			React.createElement('h1', {className: 'greeting'}, 'Hello world!'),
+			virtualDOM,
 			document.getElementById('root')
 	  )
 	</script>
 
-	<script type="text/javascript">
+	<script type="text/">
 		/**
 		 * set type="text/javascript"
 		 * create element by raw javascript
