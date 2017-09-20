@@ -39,16 +39,19 @@ function Greeting(props) {
  */
 var _ = {
 	// Object => class CompositeComponent
+	// 渲染 componentWillMount -> render -> return ，此过程是递归的
 	App: <App />.type.prototype.isReactComponent,
 
 	// undefined => function CompositeComponent
+	// 直接渲染 return 
 	Greeting: <Greeting />.type.prototype.isReactComponent,
 
 	// String 'div' => DOMComponent
+	// 直接渲染 dom 元素
 	div: <div />.type
 }
 
-console.log(_)
+console.log(_);
 
 ReactDOM.render(
 	<App />,
