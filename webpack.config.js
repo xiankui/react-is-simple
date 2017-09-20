@@ -11,7 +11,7 @@ const config = {
 			test: /\.jsx?$/, 
 			loaders: 'babel-loader',
 			query: {
-				presets: ['es2016', 'react']
+				presets: ['env', 'react']
 			}
 		}]
 	}
